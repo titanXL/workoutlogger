@@ -1,21 +1,21 @@
 var AppActions = require('../actions/AppActions')
+import axios from 'axios'
 module.exports = {
   addWorkout: function (workout) {
-    let workouts = JSON.parse(localStorage.getItem('workouts'))
-    workouts.push(workout)
-    localStorage.setItem('workouts', JSON.stringify(workouts))
+    return axios.post('/api/workouts/add', {
+      workout: workout
+    })
   },
   getWorkouts: function () {
-    let workouts = JSON.parse(localStorage.getItem('workouts'))
-    AppActions.receiveWorkouts(workouts)
+    return axios.get('/api/workouts', {
+
+    }).then(workouts => {
+      AppActions.receiveWorkouts(workouts.data)
+    })
   },
   removeWorkout: function (id) {
-    let workouts = JSON.parse(localStorage.getItem('workouts'))
-    for (let i = 0; i < workouts.length; i++) {
-      if (workouts[i].id === id) {
-        workouts.splice(i, 1)
-      }
-    }
-    localStorage.setItem('workouts', JSON.stringify(workouts))
+    return axios.delete('/api/workouts/delete/' + id, {
+
+    })
   }
 }
